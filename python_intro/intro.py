@@ -4,11 +4,13 @@ from PIL import Image, ImageDraw
 import face_recognition
 import numpy as np
 import qrcode
+import os
+from google import genai
+from dotenv import load_dotenv, find_dotenv
 
 
 def main():
-    test_qrcode()
-    
+    talk_to_gemini()  
 
 
 def say_hello():
@@ -81,6 +83,19 @@ def test_qrcode():
     img = qrcode.make("https://github.com/johnloane/sd3b_25")
     img.save("qr.png", "PNG")
 
+   
+def talk_to_gemini():
+    _ = load_dotenv(find_dotenv())
+    gemini_api_key = os.environ["GEMINI_API_KEY"]
+    client = genai.Client(api_key=gemini_api_key)
+    llm_model = "gemini-2.5-flash"
+    system_prompt = "You are a logical and supportive lecturer at DkIT who likes to be succinct. If you don't know the answer, please just say you don't know. Please only deal with questions about college and DkIT"
+    question = input("What would you like to know: ")
+    llm_content = system_prompt + question
+    
+    response = client.models.generate_content(model=llm_model, contents=llm_content)
+    print(response.text)
+    
     
         
 
