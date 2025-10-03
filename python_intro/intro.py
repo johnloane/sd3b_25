@@ -95,9 +95,7 @@ def talk_to_gemini():
     
     response = client.models.generate_content(model=llm_model, contents=llm_content)
     print(response.text)
-    
-    
-        
+       
 
 if __name__ == "__main__":
     main()
